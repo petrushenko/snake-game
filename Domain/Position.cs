@@ -2,7 +2,7 @@
 
 public record struct Position
 {
-    private static Random _random = new();
+    private static readonly Random Random = new();
 
     public int X { get; private set; } 
 
@@ -16,8 +16,8 @@ public record struct Position
 
     public static Position Create(int x, int y) => new(x, y);
 
-    public static Position CopyShifted(Position original, int xAxis = 0, int yAxis = 0) 
-        => new(original.X + xAxis, original.Y + yAxis);
+    public static Position CopyShifted(Position original, Direction shiftDirection) 
+        => original.Shift(shiftDirection);
 
     public Position Shift(Direction direction)
     {
@@ -55,8 +55,8 @@ public record struct Position
 
     public static Position CreateRandom(int xLimit, int yLimit)
     {
-        var x = _random.Next(1, xLimit);
-        var y = _random.Next(1, yLimit);
+        var x = Random.Next(1, xLimit);
+        var y = Random.Next(1, yLimit);
 
         return Create(x, y);
     }

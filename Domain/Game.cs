@@ -2,9 +2,6 @@
 
 public sealed class Game
 {
-    private readonly int _width;
-    private readonly int _height;
-
     public Snake Snake { get; private set; }
     public Rabbit Rabbit { get; private set; }
 
@@ -12,35 +9,32 @@ public sealed class Game
 
     public bool IsWin { get; private set; }
 
-    private Game(int width, int height, Snake snake, Rabbit rabbit)
+    private Game(Snake snake, Rabbit rabbit)
     {
-        _width = width;
-        _height = height;
         Snake = snake;
         Rabbit = rabbit;
     }
 
-    public static async Task StartGame(int width, int height, int speed, Func<Game, ControllerState> onKeyPressed, CancellationToken cancellationToken)
+    public static async Task StartGame(int width, int height, int speed, Func<Game, ControllerState> onGameCycleUpdate, CancellationToken cancellationToken)
     {
-        var startX = width / 2;
-        var startY = height / 2;
-
-        var snakePosition = Position.Create(startX, startY);
-        var snake = Snake.Create(snakePosition);
+        var snakePosition = Position.CreateRandom(width - 1, height - 1);
+        var snakeDirection = DirectionHelper.RandomDirection();
+        var snake = Snake.Create(snakePosition, snakeDirection);
+        
         var rabbitPosition = Position.CreateRandom(width - 1, height - 1);
         var rabbit = Rabbit.CreateAt(rabbitPosition);
 
-        while (snake.Overlaps(rabbit.Position))
+        while (snake.IsOverlaps(rabbit.Position))
         {
             rabbit = Rabbit.CreateAt(Position.CreateRandom(width - 1, height - 1));
         }
 
-        var game = new Game(width, height, snake, rabbit);
+        var game = new Game(snake, rabbit);
         var endLoop = false;
 
         while (true)
         {
-            var controllerState = onKeyPressed(game);
+            var controllerState = onGameCycleUpdate(game);
 
             if (endLoop || controllerState.PressedKey == ControllerKey.Stop)
             {
@@ -69,14 +63,14 @@ public sealed class Game
                 snake.Move();
             }
 
-            if (snake.Overlaps(game.Rabbit.Position))
+            if (snake.IsOverlaps(game.Rabbit.Position))
             {
-                while (snake.Overlaps(game.Rabbit.Position))
+                while (snake.IsOverlaps(game.Rabbit.Position))
                 {
                     game.Rabbit = Rabbit.CreateAt(Position.CreateRandom(width - 1, height - 1));
                 }
 
-                snake.IncBody();
+                snake.IncrementBody();
             }
 
             var currentPosition = snake.Head.Position;

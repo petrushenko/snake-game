@@ -3,25 +3,10 @@ using Domain;
 
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-var height = 20;
-var width = 40;
+const int height = 20;
+const int width = 40;
 
-Console.Clear();
-Console.CursorVisible = false;
-Console.Title = "Snake Game";
-
-for (var i = 0; i < height; i++)
-{
-    if (i == 0 || i == height - 1)
-    {
-        $"+{new string('-', width - 2)}+".Write(0, i, ConsoleColor.Green, ConsoleColor.Green);
-    }
-    else
-    {
-        $"|{new string(' ', width - 2)}|".Write(0, i, ConsoleColor.Green, ConsoleColor.Green);
-    }
-}
-
+SetupField();
 await Game.StartGame(width, height, 100, (game) =>
 {
     var input = Input();
@@ -33,6 +18,7 @@ await Game.StartGame(width, height, 100, (game) =>
 
 
 Console.ReadKey();
+return;
 
 ControllerKey Input()
 {
@@ -73,6 +59,10 @@ void DrawField(Game game)
     {
         $"Game over. Score: {game.Snake.Score}".Write(width + 3, 5, ConsoleColor.Blue, ConsoleColor.Black);
     }
+    else if (game.IsWin)
+    {
+        $"WIN. Score: {game.Snake.Score}".Write(width + 3, 5, ConsoleColor.Blue, ConsoleColor.Black);
+    }
     else
     {
         $"Score: {game.Snake.Score}".Write(width + 3, 5, ConsoleColor.Blue, ConsoleColor.Black);
@@ -110,4 +100,23 @@ char MapSnakePartToSymbol(SnakePart part)
     }
 
     return 'X';
+}
+
+void SetupField()
+{
+    Console.Clear();
+    Console.CursorVisible = false;
+    Console.Title = "Snake Game";
+
+    for (var i = 0; i < height; i++)
+    {
+        if (i == 0 || i == height - 1)
+        {
+            $"+{new string('-', width - 2)}+".Write(0, i, ConsoleColor.Green, ConsoleColor.Green);
+        }
+        else
+        {
+            $"|{new string(' ', width - 2)}|".Write(0, i, ConsoleColor.Green, ConsoleColor.Green);
+        }
+    }
 }

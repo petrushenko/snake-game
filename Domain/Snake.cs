@@ -2,9 +2,13 @@
 
 public sealed class Snake
 {
-    private LinkedList<SnakePart> _body = new();
+    private readonly LinkedList<SnakePart> _body = [];
 
     public IEnumerable<SnakePart> Body => _body;
+    
+    public SnakePart Head => _body.First();
+
+    public int Score => _body.Count - 3;
 
     public bool IsDead 
     { 
@@ -16,27 +20,23 @@ public sealed class Snake
         } 
     }
 
-    public SnakePart Head => _body.First();
-
-    public int Score => _body.Count - 3;
-
-    private Snake(Position startPosition)
+    private Snake(Position startPosition, Direction direction)
     {
-        var head = SnakePart.CreateHead(startPosition, Direction.Right);
+        var head = SnakePart.CreateHead(startPosition, direction);
         _body.AddFirst(head);
 
-        var bodyPosition = Position.CopyShifted(head.Position, -1, 0);
+        var bodyPosition = Position.CopyShifted(head.Position, DirectionHelper.GetOppositeDirection(direction));
         var body = SnakePart.CreateBody(bodyPosition, head.Direction);
         _body.AddLast(body);
 
-        var tailPosition = Position.CopyShifted(body.Position, -1, 0);
+        var tailPosition = Position.CopyShifted(body.Position, DirectionHelper.GetOppositeDirection(direction));
         var tail = SnakePart.CreateTail(tailPosition, body.Direction);
         _body.AddLast(tail);
     }
 
-    public static Snake Create(Position position) => new(position);
+    public static Snake Create(Position position, Direction direction) => new(position, direction);
 
-    public int IncBody()
+    public int IncrementBody()
     {
         var headNode = _body.First;
         var head = headNode!.Value;
@@ -51,7 +51,6 @@ public sealed class Snake
 
     public void Move(Direction direction)
     {
-        var oppositeDirection = DirectionHelper.GetOppositeDirection(direction);
         var headNode = _body.First;
         var head = headNode!.Value;
         if (direction == DirectionHelper.GetOppositeDirection(head.Direction))
@@ -88,7 +87,7 @@ public sealed class Snake
         Head.MoveTo(position);
     }
 
-    public bool Overlaps(Position position)
+    public bool IsOverlaps(Position position)
     {
         return _body.Any(x => x.Position == position);
     }

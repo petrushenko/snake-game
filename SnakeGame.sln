@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35122.118
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleView", "SnakeGame\ConsoleView.csproj", "{5D59032C-FF82-49EB-A7DB-1F43E76491BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{BAC5FB17-9171-425B-B6F0-D0196E39F336}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D59032C-FF82-49EB-A7DB-1F43E76491BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D59032C-FF82-49EB-A7DB-1F43E76491BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D59032C-FF82-49EB-A7DB-1F43E76491BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D59032C-FF82-49EB-A7DB-1F43E76491BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAC5FB17-9171-425B-B6F0-D0196E39F336}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAC5FB17-9171-425B-B6F0-D0196E39F336}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAC5FB17-9171-425B-B6F0-D0196E39F336}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAC5FB17-9171-425B-B6F0-D0196E39F336}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8163D6BB-EF6A-4B3F-AFAE-FA738981A6DA}
+	EndGlobalSection
+EndGlobal
